@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Extract Medications</title>
+    <script>
+        function extractNameAndDose() {
+            let inputText = document.getElementById("medInput").value;
+            let medications = inputText.split('\n').filter(med => med.trim() !== "");
+            let extractedInfo = [];
+
+            for (let med of medications) {
+                let match = med.match(/\d+\)\s+(\w+).*?([\d\.]+\w+)/);
+                if (match) {
+                    let firstWord = match[1].trim();
+                    let dose = match[2].trim();
+                    extractedInfo.push(`${firstWord} ${dose}`);
+                }
+            }
+
+            let resultTextBox = document.getElementById("result");
+            resultTextBox.value = extractedInfo.join('\n');
+        }
+    </script>
+</head>
+<body>
+    <h1>Improving Medicine Handoff at the VA</h1>
+    <h2> This project aims to improve handoff at the VA. Specifically, it aims to make it easier to update the list of medicines at handoff. Please copy and paste the numbered list of current active medicines, preferably from your note, into the box below. It will extract the name and dose of the medicines. You will need to add "PRN" where it is called for.</h2>
+<h3> Known errors: If a medicine is held, the program will like "Hold" as its own medicine. It will also not report the percent dose of any topical medicines. </h3>
+    <textarea id="medInput" rows="10" cols="100" placeholder="Enter each medication on a new line..."></textarea><br><br>
+    <button onclick="extractNameAndDose()">Click Me!!!</button><br><br>
+    <textarea id="result" rows="10" cols="100" placeholder="Extracted names and doses will appear here..."></textarea>
+<h5> Made by Husayn F. Ramji, MD </h5>
+</body>
+</html>
